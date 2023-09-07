@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="60dp"
+    android:viewportWidth="108"
+    android:viewportHeight="60">
+    <!--       крайняя левая  -->
+    <path
+        android:fillColor="@color/white_green"
+        android:pathData="M0,30L25,30"
+        android:strokeWidth="2"
+        android:strokeColor="@color/white_green" />
+    <!--       крайняя правая  -->
+    <path
+        android:fillColor="@color/white_green"
+        android:pathData="M83,30L108,30"
+        android:strokeWidth="2"
+        android:strokeColor="@color/white_green" />
+    <!--       левая средняя верхняя  -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M25,30L35,16"
+        android:strokeWidth="2"
+        android:strokeColor="@color/white_green" />
+    <!--       левая средняя нижняя  -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M25,30L35,44"
+        android:strokeWidth="2"
+        android:strokeColor="@color/white_green" />
+    <!--       правая средняя нижняя  -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M83,30L73,44"
+        android:strokeWidth="2"
+        android:strokeColor="@color/white_green" />
+    <!--       правая средняя верхняя  -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M83,30L73,16"
+        android:strokeWidth="2"
+        android:strokeColor="@color/white_green" />
+    <!--       левая нижняя  -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M47,44L34.5,44"
+        android:strokeWidth="2"
+        android:strokeColor="@color/white_green" />
+    <!--       левая верхняя  -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M34.5,16L47,16"
+        android:strokeWidth="2"
+        android:strokeColor="@color/white_green" />
+    <!--       правая верхняя  -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M73.5,16L61,16"
+        android:strokeWidth="2"
+        android:strokeColor="@color/white_green" />
+    <!--       правая нижняя  -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M73.5,44L61,44"
+        android:strokeWidth="2"
+        android:strokeColor="@color/white_green" />
+    <!--       кружок  -->
+    <path
+        android:fillColor="@color/white_green"
+        android:pathData="M54,30 m-3,0 a3,3 0,1 1,6 0 a3,3 0,1 1,-6 0"
+        android:fillAlpha="0.6"/>
+</vector>

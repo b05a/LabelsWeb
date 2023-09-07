@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">LabelsWeb</string>
+    <string name="synchronize">Synchronize</string>
+    <string name="refresh">Refresh</string>
+    <string name="message4sec">The device is not connected yet, try again in 5 seconds</string>
+    <string name="horizontal">horizontal</string>
+    <string name="vertical">vertical</string>
+    <string name="numberLabelName">The number of characters in the title should not exceed 11</string>
+    <string name="colorLabel">Color</string>
+    <string name="removeLabel">Remove label?</string>
+    <string name="DeleteLabel">Delete</string>
+    <string name="Cancel">Cancel</string>
+    <string name="AddaLabel">Add a label</string>
+    <string name="VerticalScreen">Vertical screen:</string>
+    <string name="HorizontalScreen">Horizontal screen:</string>
+    <string name="NoLabels">No Labels</string>
+    <string name="WiFiSettings">WiFi Settings</string>
+    <string name="save">Save</string>
+    <string name="Delete">Delete</string>
+    <string name="WiFilogin">WiFi login</string>
+    <string name="Now">"Now: "</string>
+    <string name="wifiPassword">"WiFi password: "</string>
+    <string name="newLabel">New Label</string>
+    <string name="DeviceNotFound">Device not found</string>
+    <string name="noLogin">no login</string>
+    <string name="noPassword">no password</string>
+
+
+</resources>

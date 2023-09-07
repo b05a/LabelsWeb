@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LabelsWeb</string>
+    <string name="numberLabelName">Количество символов в названии не должно быть больше 11</string>
+    <string name="vertical">вертикальных</string>
+    <string name="horizontal">горизонтальных</string>
+    <string name="message4sec">Устройство еще не подключено, попробуйте через 4 секунды</string>
+    <string name="refresh">Обновить</string>
+    <string name="synchronize">Синхонизировать</string>
+    <string name="colorLabel">Цвет</string>
+    <string name="removeLabel">Удалить метку?</string>
+    <string name="DeleteLabel">Удалить</string>
+    <string name="Cancel">Отмена</string>
+    <string name="AddaLabel">Добавить метку</string>
+    <string name="VerticalScreen">Вертикальный экран:</string>
+    <string name="HorizontalScreen">Горизонтальный экран:</string>
+    <string name="NoLabels">Нет меток</string>
+    <string name="WiFiSettings">Настройки WiFi</string>
+    <string name="save">Сохранить</string>
+    <string name="Delete">Удалить</string>
+    <string name="WiFilogin">WiFi логин</string>
+    <string name="Now">"Сейчас: "</string>
+    <string name="wifiPassword">"WiFi пароль: "</string>
+    <string name="newLabel">Новая метка</string>
+    <string name="DeviceNotFound">Устройство не найдено</string>
+    <string name="noLogin">нет логина</string>
+    <string name="noPassword">нет пароля</string>
+</resources>
