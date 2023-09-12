@@ -105,7 +105,7 @@ class MainViewModel(
     }
 
     fun getIp(pendingIntent: PendingIntent): String {
-        return ipManager.setAccPass(pendingIntent, this)
+        return ipManager.getIP(pendingIntent, this)
     }
 
     fun setAccPass(pendingIntent: PendingIntent): String {

@@ -11,7 +11,7 @@ import com.hoho.android.usbserial.driver.UsbSerialPort
 import com.hoho.android.usbserial.driver.UsbSerialProber
 
 class IPManager( var context: Context) {
-    fun setAccPass(permissionIntent: PendingIntent, vm:MainViewModel): String {
+    fun getIP(permissionIntent: PendingIntent,  vm:MainViewModel): String {
         val manager = context.getSystemService(ComponentActivity.USB_SERVICE) as UsbManager
         val availableDrivers = UsbSerialProber.getDefaultProber().findAllDrivers(manager)
         if (availableDrivers.isEmpty()) {
@@ -22,16 +22,14 @@ class IPManager( var context: Context) {
         val connection =
             manager.openDevice(driver.device) // add UsbManager.requestPermission(driver.getDevice(), ..) handling here
 
-        // проверка разрешения USB
-        if (!manager.hasPermission(driver.device)) {
-            // запрос разрешения USB
-            manager.requestPermission(driver.device, permissionIntent)
-        }
+        // запрос разрешения
+        manager.requestPermission(driver.device, permissionIntent)
 
+        manager.hasPermission(driver.device)
 
         // Most devices have just one port (port 0)
         val port = driver.ports[0]
-        val buffer = ByteArray(30)
+
         try {
             port.open(connection)
             try {
@@ -39,36 +37,28 @@ class IPManager( var context: Context) {
             } catch (e: UnsupportedOperationException) {
                 return "unsupport setparameters"
             }
-            port.read(buffer, 20)
-            val result2 = String(buffer).map {
-                if (it.isLetterOrDigit() || it == '.' || it == '+') it else {
+            port.write("#".toByteArray(), 50)
+            val buffer = ByteArray(30)
+            val result = port.read(buffer, 200)
+            val ip = String(buffer).map {
+                if (it.isDigit() || it == '.') it else {
                     ""
                 }
             }.joinToString("")
-            port.write("%${vm.acc.value}+${vm.pass.value}".toByteArray(), 50)
-
-
-            var result = port.read(buffer, 200)
-            val returnAccName = String(buffer).map {
-                if (it.isLetterOrDigit() || it == '.' || it == '+') it else {
-                    ""
-                }
-            }.joinToString("").split("+")
-
-            val res = String(buffer)
-
-            if (returnAccName[0] != vm.acc.value && returnAccName[1] != vm.pass.value) {
-                return context.resources.getString(R.string.message4sec)
+            if (ip.count() < 5) {
+                return context.resources.getString(R.string.message4sec);
             }
-            vm.accValue.value = vm.acc.value
-            vm.passValue.value = vm.pass.value
-            vm.db.setAccPass(AccPassValue(acc = vm.accValue.value, pass = vm.passValue.value))
+            val oldIP = vm.localIP.value
+            vm.localIP.value = ip
+            vm.db.setIP(IPLocal(IPvalue = ip))
+            vm.pageHtml.mainPage = vm.pageHtml.mainPage.replace(oldIP, ip)
             connection.close()
-            return "account: ${vm.accValue.value}, password: ${vm.accValue.value}"
+            return ip
         } catch (e: Exception) {
 
         }
 
-        return context.resources.getString(R.string.message4sec)
+
+        return context.resources.getString(R.string.message4sec);
     }
 }
