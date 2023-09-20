@@ -15,7 +15,7 @@ Step 2. Print and prepare 3D parts.
 
 Step 3: Upload the sketch to the ESP32.
 
-Step 4. Install the LabelsWeb application.
+Step 4. Install the LabelsWeb application.\n
 ![image](https://github.com/b05a/LabelsWeb/assets/88624075/9cac3c96-077e-48a0-8504-e9d8255228a0)
 
 Step 5. Connect the phone and the collimator (OTG cable must be installed in the phone, otherwise it will not work).
