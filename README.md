@@ -37,3 +37,7 @@ Step 8: Disconnect and reconnect the USB to reset the ESP32.
 
 Step 9. Synchronize IP, refresh, configure tags and install on the bar.
 https://www.youtube.com/watch?v=vUajYwZQ6BA
+
+Step 10. Next, you can connect to the power bank.
+![photo_2023-09-21_01-47-36](https://github.com/b05a/LabelsWeb/assets/88624075/d06b7b06-885b-46d4-b8fe-42426be87980)
+
