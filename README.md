@@ -19,7 +19,8 @@ Step 4. Install the LabelsWeb application.
 ![image](https://github.com/b05a/LabelsWeb/assets/88624075/9cac3c96-077e-48a0-8504-e9d8255228a0)
 
 Step 5. Connect the phone and the collimator (OTG cable must be installed in the phone, otherwise it will not work).
-![image](https://github.com/b05a/LabelsWeb/assets/88624075/0e3fc5ee-d717-4f1b-a8ee-ce03709460bb)
+![image7](https://github.com/b05a/LabelsWeb/assets/88624075/c438a489-6d5a-4c46-afcd-c956f9ed31e5)
+
 
 Step 6. Enable the access point with a password.
 https://www.youtube.com/shorts/bi2E_OIEBZ4 
