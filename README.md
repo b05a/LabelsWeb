@@ -4,7 +4,7 @@ Android application
 
 Other parts:  3D parts for printing, for a project: https://github.com/b05a/Label-3Dmodel, Sketch for ESP32 cam: https://github.com/b05a/LabelWebESP32
 
-Step 1. Buy ESP32-CAM, micro USB extension cable, USB OTG adapter for accessories, power bank
+Step 1. Buy ESP32-CAM(with USB adapter), micro USB extension cable, USB OTG adapter for accessories, power bank
 ![qwert](https://github.com/b05a/LabelsWeb/assets/88624075/93fa04e4-b640-46d7-a341-880e5de511d5)
 ![image](https://github.com/b05a/LabelsWeb/assets/88624075/88f37249-6279-4600-9175-89ff39cf2c95)
 ![image](https://github.com/b05a/LabelsWeb/assets/88624075/ec6a4eb2-ef8a-4020-a447-877b29e16c42)
