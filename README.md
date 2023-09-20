@@ -2,7 +2,7 @@
 
 Android application
 
-Other parts:  3D parts for printing, for a project: https://github.com/b05a/Label-3Dmodel, Sketch for ESP32 cam: https://github.com/b05a/LabelWebESP32
+Other parts: Android application: https://github.com/b05a/LabelsWeb/blob/master/download/app-debug.apk, 3D parts for printing, for a project: https://github.com/b05a/Label-3Dmodel, Sketch for ESP32 cam: https://github.com/b05a/LabelWebESP32
 
 Step 1. Buy ESP32-CAM(with USB adapter), micro USB extension cable, USB OTG adapter for accessories, power bank
 
