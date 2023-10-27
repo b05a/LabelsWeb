@@ -19,4 +19,8 @@ class ToastMessage(var context: Context) {
     fun messageLabelNameCount(){
         Toast.makeText(context, R.string.numberLabelName, Toast.LENGTH_LONG).show()
     }
+
+    fun infoMessage(message:String){
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+    }
 }

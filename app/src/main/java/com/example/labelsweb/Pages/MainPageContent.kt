@@ -4,15 +4,11 @@ import android.app.PendingIntent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -23,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -50,6 +47,7 @@ fun MainPageContent(
         SideEffect {
             println("hello")
         }
+        var modifier =Modifier.rotate(90f)
 
         Box(modifier = Modifier
             .fillMaxSize()
@@ -76,12 +74,13 @@ fun MainPageContent(
 
             // устанавливаем метки
             for (i in vm.listLabels) {
-                if (!i.verticalVal && vm.getDisplaySize().displayVertical) continue
-                if (i.verticalVal && !vm.getDisplaySize().displayVertical) continue
+                if (!i.verticalVal && vm.displayStateVertical.value) continue
+                if (i.verticalVal && !vm.displayStateVertical.value) continue
                 LabelItem(
                     label = i,
                     displayXY = vm.getDisplaySize(),
-                    vm.colorLabel.value.color
+                    vm.colorLabel.value.color,
+                    if(i.verticalVal){Modifier} else{Modifier.rotate(90f)}
                 )
             }
 
@@ -137,16 +136,34 @@ fun MainPageContent(
                         .padding(10.dp)
                 ) {
                     Row() {
+//                        Button( onClick = { vm.writeUSBBuffer(permissionIntent) }) {
+//                            Text(text = "Write to Device")
+//                        }
+//                        Button(onClick = {Toast.makeText(mainActivity,vm.getUSBBuffer(permissionIntent), Toast.LENGTH_LONG).show()}){
+//                            Text(text = "Get Buffer")
+//                        }
                         Button(onClick = {
                             vm.webView.loadData(vm.pageHtml.mainPage, "text/html", "en_US")
                         }) {
-                            Text(text = stringResource(id = R.string.refresh))
+                            Text(modifier = Modifier,text = stringResource(id = R.string.refresh))
                         }
                     }
 
+                }
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.BottomStart)
+                        .padding(10.dp)
+                ) {
+                    Button(onClick = { vm.changeDisplayStateVertical() }) {
+                        Text(modifier = Modifier,text = "Rotate")
+                    }
                 }
             }
         }
 
     }
+
+
+
 }

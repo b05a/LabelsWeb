@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.labelsweb.Clases.AccPassValue
 import com.example.labelsweb.Clases.ColorLabel
+import com.example.labelsweb.Clases.DisplayState
 import com.example.labelsweb.Clases.HeightLabel
 import com.example.labelsweb.Clases.IPLocal
 import com.example.labelsweb.Clases.Label
@@ -48,4 +49,10 @@ interface Dao {
 
     @Query("SELECT * FROM AccPassValue")
     fun dbGetAccPass():List<AccPassValue>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun dbSetDisplayState(displayState:DisplayState)
+
+    @Query("SELECT *FROM DisplayState")
+    fun dbGetDisplayState():List<DisplayState>
 }

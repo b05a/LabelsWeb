@@ -35,7 +35,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class MainActivity : ComponentActivity() {
-    // hello
+
     val vm: MainViewModel by viewModel()
 
     private val ACTION_USB_PERMISSION = "com.android.example.USB_PERMISSION"
@@ -61,7 +61,6 @@ class MainActivity : ComponentActivity() {
 
         // установка только вертикального экрана
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-
         setContent {
 
             LabelsWebTheme {

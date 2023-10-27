@@ -8,6 +8,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.res.stringResource
 import com.example.labelsweb.Clases.AccPassValue
 import com.example.labelsweb.Clases.ColorLabel
+import com.example.labelsweb.Clases.DisplayState
 import com.example.labelsweb.Clases.HeightLabel
 import com.example.labelsweb.Clases.IPLocal
 import com.example.labelsweb.Clases.Label
@@ -103,6 +104,17 @@ class RepositoryRoom(var db: MainDb) {
         CoroutineScope(Dispatchers.IO).launch {
             db.getDao().dbSetAccPass(accPassValue)
         }
+    }
+
+    fun setDisplayState(state:Boolean){
+        CoroutineScope(Dispatchers.IO).launch {
+            db.getDao().dbSetDisplayState(DisplayState(vertical = state) )
+        }
+    }
+
+    fun getDisplayState():DisplayState{
+        if (db.getDao().dbGetDisplayState().isEmpty()) return DisplayState(vertical = true)
+        return db.getDao().dbGetDisplayState().first()
     }
 
 }

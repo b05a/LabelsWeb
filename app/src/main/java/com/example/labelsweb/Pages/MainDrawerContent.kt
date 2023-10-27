@@ -212,8 +212,7 @@ fun MainDrawerContent(
                         }
                         Button(onClick = {
 //                            val i = mainActivity.getIP(permissionIntent)
-                            val i = vm.getIp(permissionIntent)
-                            Toast.makeText(mainActivity, i, Toast.LENGTH_LONG).show()
+                            vm.getIp(permissionIntent)
                         }) {
                             Text(text = stringResource(id = R.string.synchronize))
                         }

@@ -1,8 +1,8 @@
 package com.example.labelsweb.Pages
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -25,39 +25,58 @@ import com.example.labelsweb.ui.theme.BlackLight
 import com.example.labelsweb.ui.theme.GreenWhite
 
 @Composable
-fun LabelItem(label: Label, displayXY: DisplayXY, color: String) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.offset(x = label.horizontal.dp, y = label.vertical.dp)
-    ) {
+fun LabelItem(label: Label, displayXY: DisplayXY, color: String, modifier: Modifier) {
 
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        IconButton(
-            onClick = { /*TODO*/ },
-            modifier = Modifier
-                .padding(10.dp)
-                .height(60.dp)
-                .width(108.dp),
-            enabled = false
+    Box(modifier = Modifier.offset(x = label.horizontal.dp, y = label.vertical.dp)){
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = modifier
+            /*modifier = Modifier.offset(x = label.horizontal.dp, y = label.vertical.dp)*/
         ) {
-            Image(
-                painter = painterResource(
-                    id =
-                    when (color) {
-                        "green" -> R.drawable.ic_label_green
-                        "white" -> R.drawable.ic_label_white
-                        "grey" -> R.drawable.ic_label_black
-                        else -> R.drawable.ic_label_white
-                    }
-                ),
-                contentDescription = "image"
-            )
 
-        }
-            if (displayXY.x * 0.5 < label.horizontal) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                IconButton(
+                    onClick = { /*TODO*/ },
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .height(60.dp)
+                        .width(108.dp),
+                    enabled = false
+                ) {
+                    Image(
+                        painter = painterResource(
+                            id =
+                            when (color) {
+                                "green" -> R.drawable.ic_label_green
+                                "white" -> R.drawable.ic_label_white
+                                "grey" -> R.drawable.ic_label_black
+                                else -> R.drawable.ic_label_white
+                            }
+                        ),
+                        contentDescription = "image"
+                    )
+
+                }
+                if (displayXY.x * 0.5 < label.horizontal && label.verticalVal) {
+                    Text(
+                        text = label.name,
+                        fontSize = 14.sp,
+                        color =
+                        when (color) {
+                            "green" -> GreenWhite
+                            "white" -> Color.White
+                            "grey" -> BlackLight
+                            else -> GreenWhite
+                        },
+                        textAlign = TextAlign.Center
+
+                    )
+                }
+            }
+            if (displayXY.x * 0.5 > label.horizontal || !label.verticalVal) {
                 Text(
                     text = label.name,
-                    fontSize = 14.sp,
+                    fontSize = 18.sp,
                     color =
                     when (color) {
                         "green" -> GreenWhite
@@ -66,23 +85,9 @@ fun LabelItem(label: Label, displayXY: DisplayXY, color: String) {
                         else -> GreenWhite
                     },
                     textAlign = TextAlign.Center
-
                 )
             }
         }
-        if (displayXY.x * 0.5 > label.horizontal) {
-            Text(
-                text = label.name,
-                fontSize = 18.sp,
-                color =
-                when (color) {
-                    "green" -> GreenWhite
-                    "white" -> Color.White
-                    "grey" -> BlackLight
-                    else -> GreenWhite
-                },
-                textAlign = TextAlign.Center
-            )
-        }
     }
+
 }

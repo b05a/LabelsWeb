@@ -71,7 +71,6 @@ fun WiFiOption(vm: MainViewModel, mainActivity: MainActivity, permissionIntent: 
                     Button(onClick = {
                         val i = vm.setAccPass(permissionIntent)
 //                        val i = mainActivity.setAccPass(permissionIntent)
-                        Toast.makeText(mainActivity, i, Toast.LENGTH_SHORT).show()
                     }) {
                         Text(text = stringResource(id = R.string.synchronize))
                     }

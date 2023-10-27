@@ -20,6 +20,7 @@ import com.example.labelsweb.Clases.ColorLabel
 import com.example.labelsweb.Clases.IPManager
 import com.example.labelsweb.Clases.Label
 import com.example.labelsweb.Clases.PageHtml
+import com.example.labelsweb.Clases.USBBuffer
 import com.example.labelsweb.Clases.USBManager
 import com.example.labelsweb.MainActivity
 import com.example.labelsweb.Repository.RepositoryRoom
@@ -39,7 +40,8 @@ class MainViewModel(
     var usbManager: USBManager,
     var pageHtml: PageHtml,
     var ipManager: IPManager,
-    var accPassManager: AccPassManager
+    var accPassManager: AccPassManager,
+    var usbBuffer:USBBuffer
 ) :
     ViewModel() {
 
@@ -74,7 +76,8 @@ class MainViewModel(
     var passValue = mutableStateOf("")
     // создан ли listLabels
     var listLabelsCreate = mutableStateOf(false)
-    var portValue = mutableStateOf("")
+    // вертикальный или горизонтальный экран показывать
+    var displayStateVertical = mutableStateOf(true)
 
 
     // список меток относительной высоты
@@ -92,7 +95,7 @@ class MainViewModel(
 
             accValue = mutableStateOf(db.getAccPass().acc)
             passValue = mutableStateOf(db.getAccPass().pass)
-
+            displayStateVertical = mutableStateOf(db.getDisplayState().vertical)
             localIP = mutableStateOf(db.getIP().IPvalue)
             val ip = localIP.value
             pageHtml.mainPage = pageHtml.mainPage.replace("hello", "http://$ip")
@@ -104,12 +107,30 @@ class MainViewModel(
         }
     }
 
-    fun getIp(pendingIntent: PendingIntent): String {
-        return ipManager.getIP(pendingIntent, this)
+    fun changeDisplayStateVertical(){
+        displayStateVertical.value = !displayStateVertical.value
+        db.setDisplayState(displayStateVertical.value)
     }
 
-    fun setAccPass(pendingIntent: PendingIntent): String {
-        return accPassManager.setAccPass(pendingIntent, this)
+    fun writeUSBBuffer(pendingIntent: PendingIntent) {
+        viewModelScope.launch(Dispatchers.IO) {
+            usbBuffer.writeUSBBuffer(pendingIntent,this@MainViewModel, handler)
+        }
+    }
+
+    fun getUSBBuffer(pendingIntent: PendingIntent):String{
+        return usbBuffer.getUSBBuffer(pendingIntent,this)
+    }
+    fun getIp(pendingIntent: PendingIntent) {
+        viewModelScope.launch(Dispatchers.IO) {
+            ipManager.getIP(pendingIntent, this@MainViewModel)
+        }
+    }
+
+    fun setAccPass(pendingIntent: PendingIntent) {
+        viewModelScope.launch(Dispatchers.IO) {
+            accPassManager.setAccPass(pendingIntent, this@MainViewModel)
+        }
     }
 
     // получение разрешения экрана в dpi и определение вертикальный экран или горизонтальный при переключении экрана
@@ -123,18 +144,18 @@ class MainViewModel(
         if (changeListNumber < 0) return
         if (listLabels.isEmpty()) return
 
-        if (!displayXY.displayVertical && listLabels[changeListNumber].verticalVal){
-            // если при повороте экрана открыто окно настроек то закрываем его и сохраняем изменения
-            if(optionView.value) optionView.value = false
-            // если при повороте экрана открыто удаления метки то закрываем его
-            if (deleteDialogAlert.value) deleteDialogAlert.value = false
-        }
-        if (displayXY.displayVertical && !listLabels[changeListNumber].verticalVal){
-            // если при повороте экрана открыто окно настроек то закрываем его и сохраняем изменения
-            if(optionView.value) optionView.value = false
-            // если при повороте экрана открыто удаления метки то закрываем его
-            if (deleteDialogAlert.value) deleteDialogAlert.value = false
-        }
+//        if (!displayXY.displayVertical && listLabels[changeListNumber].verticalVal){
+//            // если при повороте экрана открыто окно настроек то закрываем его и сохраняем изменения
+//            if(optionView.value) optionView.value = false
+//            // если при повороте экрана открыто удаления метки то закрываем его
+//            if (deleteDialogAlert.value) deleteDialogAlert.value = false
+//        }
+//        if (displayXY.displayVertical && !listLabels[changeListNumber].verticalVal){
+//            // если при повороте экрана открыто окно настроек то закрываем его и сохраняем изменения
+//            if(optionView.value) optionView.value = false
+//            // если при повороте экрана открыто удаления метки то закрываем его
+//            if (deleteDialogAlert.value) deleteDialogAlert.value = false
+//        }
 
     }
 
@@ -168,12 +189,12 @@ class MainViewModel(
     // добавление метки
     fun addLabel(stringResource: String) {
         // генерируем Id
-        var id = generationId.getId(listLabels, displayXY, toastMessage)
+        var id = generationId.getId(listLabels, displayStateVertical.value, toastMessage)
         // если превышено количество меток, завершаем функцию
         if (id < 0) return
 
         // добавление метки в список
-        listLabels.add(Label(id, stringResource, 50, 50, displayXY.displayVertical))
+        listLabels.add(Label(id, stringResource, 50, 50, displayStateVertical.value))
         db.setLabel(listLabels.last())
         // показывает панель настроек
         optionView.value = true
@@ -183,10 +204,12 @@ class MainViewModel(
     // функция начала редактирования меток вертикальных
     fun editLabelVertical(label: Label):Boolean {
         // если метка горизонтальная то сообщаем что для ее изменения нужно перейти в горизонтальный режим
-        if (!displayXY.displayVertical) {
+        if (!displayStateVertical.value) {
             toastMessage.messageInfoVertical()
             return false
         }
+        // сохраняем в бд предыдущую метку если она открыта для редактирования
+        saveChange()
         // показываем панель редактирования меток
         optionView.value = true
         // добавляет номер метки в переменную определяющую какую метку редактировать
@@ -197,7 +220,7 @@ class MainViewModel(
     // функция начала редактирования меток горизонтальных
     fun editLabelHorizontal(label: Label): Boolean {
         // если метка горизонтальная то сообщаем что для ее изменения нужно перейти в вертикальный режим
-        if (displayXY.displayVertical) {
+        if (displayStateVertical.value) {
             toastMessage.messageInfoHorizontal()
             return false
         }
@@ -212,15 +235,30 @@ class MainViewModel(
 
     // функция для изменения координат меток
     fun changeLeft() {
-        if (listLabels[changeListNumber].horizontal < 1/*0.1 * displayXY.x*/) return
-        val e = listLabels[changeListNumber].horizontal - 1
-        listLabels[changeListNumber] = listLabels[changeListNumber].copy(horizontal = e)
+        // если метка горизонтальная, то доводитим до -100, если вертикальная то до 1
+        if (!displayStateVertical.value){
+            if (listLabels[changeListNumber].horizontal < -100/*0.1 * displayXY.x*/) return
+            val e = listLabels[changeListNumber].horizontal - 1
+            listLabels[changeListNumber] = listLabels[changeListNumber].copy(horizontal = e)
+        }else{
+            if (listLabels[changeListNumber].horizontal < 1/*0.1 * displayXY.x*/) return
+            val e = listLabels[changeListNumber].horizontal - 1
+            listLabels[changeListNumber] = listLabels[changeListNumber].copy(horizontal = e)
+        }
+
     }
 
     fun changeLeft10() {
-        if (listLabels[changeListNumber].horizontal < 1/*0.1 * displayXY.x*/) return
-        val e = listLabels[changeListNumber].horizontal - 10
-        listLabels[changeListNumber] = listLabels[changeListNumber].copy(horizontal = e)
+        // если метка горизонтальная, то доводитим до -100, если вертикальная то до 1
+        if (!displayStateVertical.value){
+            if (listLabels[changeListNumber].horizontal < -100/*0.1 * displayXY.x*/) return
+            val e = listLabels[changeListNumber].horizontal - 10
+            listLabels[changeListNumber] = listLabels[changeListNumber].copy(horizontal = e)
+        }else{
+            if (listLabels[changeListNumber].horizontal < 1/*0.1 * displayXY.x*/) return
+            val e = listLabels[changeListNumber].horizontal - 10
+            listLabels[changeListNumber] = listLabels[changeListNumber].copy(horizontal = e)
+        }
     }
 
     fun changeRight() {
@@ -270,15 +308,15 @@ class MainViewModel(
     }
 
     // сохранение метки
-    fun saveChange(){
+    fun saveChange() {
         // если если неизвестен номер метки для редактирования то завершаем функцию
-        if (changeListNumber<0) return
+        if (changeListNumber < 0) return
         // сохраняем метку в бд
         db.setLabel(listLabels[changeListNumber])
     }
 
     // удаление метки
-    fun delLabel(){
+    fun delLabel() {
         // убираем диалоговое окно удаления метки
         deleteDialogAlert.value = !deleteDialogAlert.value;
         // убираем окно настройки меток

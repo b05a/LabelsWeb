@@ -15,8 +15,10 @@ import com.example.labelsweb.Cases.GenerationId
 import com.example.labelsweb.Cases.ToastMessage
 import com.example.labelsweb.Clases.AccPassManager
 import com.example.labelsweb.Clases.AccPassValue
+import com.example.labelsweb.Clases.DisplayState
 import com.example.labelsweb.Clases.IPManager
 import com.example.labelsweb.Clases.PageHtml
+import com.example.labelsweb.Clases.USBBuffer
 import com.example.labelsweb.Clases.USBManager
 import com.example.labelsweb.Repository.MainDb
 import com.example.labelsweb.Repository.RepositoryRoom
@@ -26,7 +28,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val appModule = module {
-    viewModel { MainViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+    viewModel { MainViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
     single<DisplayType> { DisplayType() }
     single<RepositoryRoom> { RepositoryRoom(get()) }
     single<MainDb> { MainDb.getDb(androidContext()) }
@@ -52,5 +54,6 @@ val appModule = module {
     single<AccPassValue> { AccPassValue() }
     single<IPManager>{ IPManager(androidContext()) }
     single<AccPassManager>{AccPassManager(androidContext())}
+    single<USBBuffer>{USBBuffer(androidContext())}
 
 }
