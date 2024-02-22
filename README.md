@@ -13,8 +13,6 @@ Step 1. Buy ESP32-CAM(with USB adapter), micro USB extension cable, USB OTG adap
 
 Step 2. Print and prepare 3D parts.
 
-![image](https://github.com/b05a/LabelsWeb/assets/88624075/0e7d7c3d-3fcf-4753-b640-4ad6fda63ffe)
-
 
 ![image](https://github.com/b05a/LabelsWeb/assets/88624075/bbad548a-1853-4f41-9bb9-be9595f1a3a1)
 
