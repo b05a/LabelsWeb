@@ -7,5 +7,6 @@ import androidx.room.PrimaryKey
 data class DisplayState(
     @PrimaryKey
     var id: String = "first",
-    var vertical: Boolean = true
+    var vertical: Boolean = true,
+    var rotate:Boolean = true
     )

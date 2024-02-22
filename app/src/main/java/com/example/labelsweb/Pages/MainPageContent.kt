@@ -136,12 +136,6 @@ fun MainPageContent(
                         .padding(10.dp)
                 ) {
                     Row() {
-//                        Button( onClick = { vm.writeUSBBuffer(permissionIntent) }) {
-//                            Text(text = "Write to Device")
-//                        }
-//                        Button(onClick = {Toast.makeText(mainActivity,vm.getUSBBuffer(permissionIntent), Toast.LENGTH_LONG).show()}){
-//                            Text(text = "Get Buffer")
-//                        }
                         Button(onClick = {
                             vm.webView.loadData(vm.pageHtml.mainPage, "text/html", "en_US")
                         }) {
@@ -150,6 +144,11 @@ fun MainPageContent(
                     }
 
                 }
+
+                if (vm.manuallysynchronizeIP.value){
+                    ManuallySynchronizeIPDialog(vm = vm)
+                }
+
                 Box(
                     modifier = Modifier
                         .align(Alignment.BottomStart)

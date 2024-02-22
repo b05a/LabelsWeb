@@ -1,6 +1,13 @@
 package com.example.labelsweb.Clases
 
 class PageHtml {
+    fun rotate(page:String):String{
+        if (page.contains("rotate(90deg)")){
+            return page.replace("rotate(90deg)", "rotate(270deg)")
+        } else{
+            return page.replace("rotate(270deg)", "rotate(90deg)")
+        }
+    }
     var mainPage = "<!DOCTYPE html>\n" +
             "<html style=\"height: 100%;\">\n" +
             "<head>\n" +

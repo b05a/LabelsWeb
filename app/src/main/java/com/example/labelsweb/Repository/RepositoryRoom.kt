@@ -106,9 +106,9 @@ class RepositoryRoom(var db: MainDb) {
         }
     }
 
-    fun setDisplayState(state:Boolean){
+    fun setDisplayState(state:Boolean, rotate:Boolean){
         CoroutineScope(Dispatchers.IO).launch {
-            db.getDao().dbSetDisplayState(DisplayState(vertical = state) )
+            db.getDao().dbSetDisplayState(DisplayState(vertical = state, rotate = rotate) )
         }
     }
 

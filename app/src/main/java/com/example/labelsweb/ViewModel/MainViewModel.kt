@@ -45,7 +45,8 @@ class MainViewModel(
 ) :
     ViewModel() {
 
-
+    val ipItem = mutableStateOf("")
+    var manuallysynchronizeIP = mutableStateOf(false)
 
     // параметры дисплея dpi x, dpi y и горизонтальный или вертикальный экран
     private lateinit var displayXY: DisplayXY
@@ -78,6 +79,8 @@ class MainViewModel(
     var listLabelsCreate = mutableStateOf(false)
     // вертикальный или горизонтальный экран показывать
     var displayStateVertical = mutableStateOf(true)
+    // обычное или перевернутое изображение на видео
+    var displayRotate = mutableStateOf(true)
 
 
     // список меток относительной высоты
@@ -87,7 +90,7 @@ class MainViewModel(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-
+            // получаем список меток
             listLabels = db.getListLabel()
 
             // получаем цвет меток из бд
@@ -96,9 +99,11 @@ class MainViewModel(
             accValue = mutableStateOf(db.getAccPass().acc)
             passValue = mutableStateOf(db.getAccPass().pass)
             displayStateVertical = mutableStateOf(db.getDisplayState().vertical)
+            displayRotate = mutableStateOf(db.getDisplayState().rotate)
             localIP = mutableStateOf(db.getIP().IPvalue)
             val ip = localIP.value
             pageHtml.mainPage = pageHtml.mainPage.replace("hello", "http://$ip")
+            if (!displayRotate.value) pageHtml.mainPage = pageHtml.rotate(pageHtml.mainPage)
             Log.d("hello", "IP ${pageHtml.mainPage}")
             Log.d("hello", ip)
             handler.post { webView.loadData(pageHtml.mainPage,"text/html", "en_US"); listLabelsCreate.value = true }
@@ -107,9 +112,21 @@ class MainViewModel(
         }
     }
 
+    fun manuallySynchronizeIPFun(){
+        viewModelScope.launch(Dispatchers.IO) {
+            ipManager.setIPManually(ipItem.value, this@MainViewModel)
+        }
+    }
+    fun rotate180(){
+        pageHtml.mainPage = pageHtml.rotate(pageHtml.mainPage)
+        webView.loadData(pageHtml.mainPage, "text/html", "en_US")
+        displayRotate.value = !displayRotate.value
+        db.setDisplayState(displayStateVertical.value, displayRotate.value)
+    }
+
     fun changeDisplayStateVertical(){
         displayStateVertical.value = !displayStateVertical.value
-        db.setDisplayState(displayStateVertical.value)
+        db.setDisplayState(displayStateVertical.value,displayRotate.value)
     }
 
     fun writeUSBBuffer(pendingIntent: PendingIntent) {
@@ -143,20 +160,6 @@ class MainViewModel(
         }
         if (changeListNumber < 0) return
         if (listLabels.isEmpty()) return
-
-//        if (!displayXY.displayVertical && listLabels[changeListNumber].verticalVal){
-//            // если при повороте экрана открыто окно настроек то закрываем его и сохраняем изменения
-//            if(optionView.value) optionView.value = false
-//            // если при повороте экрана открыто удаления метки то закрываем его
-//            if (deleteDialogAlert.value) deleteDialogAlert.value = false
-//        }
-//        if (displayXY.displayVertical && !listLabels[changeListNumber].verticalVal){
-//            // если при повороте экрана открыто окно настроек то закрываем его и сохраняем изменения
-//            if(optionView.value) optionView.value = false
-//            // если при повороте экрана открыто удаления метки то закрываем его
-//            if (deleteDialogAlert.value) deleteDialogAlert.value = false
-//        }
-
     }
 
     // получение разрешения экрана в dpi и определение вертикальный экран или горизонтальный (в процессе работы в активити)

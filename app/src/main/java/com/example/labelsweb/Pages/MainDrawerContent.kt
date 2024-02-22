@@ -4,6 +4,7 @@ import android.app.PendingIntent
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -203,26 +204,52 @@ fun MainDrawerContent(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Row() {
-                        Button(onClick = {
-                            vm.wifiOption.value = true
-                            val i = ""
-                            Toast.makeText(mainActivity, i, Toast.LENGTH_LONG).show()
-                        }) {
+                        Button(
+                            onClick = { vm.rotate180() },
+                            colors = ButtonDefaults.buttonColors(GrayDark),
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(15.dp))
+                        ) {
+                            Text(text = "Rotate image")
+                        }
+                        Button(
+                            onClick = { vm.manuallysynchronizeIP.value = true },
+                            colors = ButtonDefaults.buttonColors(GrayDark),
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(15.dp))
+                        ) {
+                            Text(text = stringResource(id = R.string.manuallysynchronizeIP))
+                        }
+                    }
+                    
+                    Row() {
+
+                        Button(
+                            onClick = {
+                                vm.wifiOption.value = true
+                                val i = ""
+                                Toast.makeText(mainActivity, i, Toast.LENGTH_LONG).show()
+                            },
+                            colors = ButtonDefaults.buttonColors(GrayDark),
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(15.dp))
+                        ) {
                             Text(text = stringResource(id = R.string.WiFiSettings))
                         }
-                        Button(onClick = {
-//                            val i = mainActivity.getIP(permissionIntent)
-                            vm.getIp(permissionIntent)
-                        }) {
+                        Button(
+                            onClick = {
+                                vm.getIp(permissionIntent)
+                            },
+                            colors = ButtonDefaults.buttonColors(GrayDark),
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(15.dp))
+                        ) {
                             Text(text = stringResource(id = R.string.synchronize))
                         }
                     }
-
                 }
 
             }
         }
-
-
     }
 }

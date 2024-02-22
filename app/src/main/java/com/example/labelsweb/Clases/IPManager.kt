@@ -11,6 +11,15 @@ import com.hoho.android.usbserial.driver.UsbSerialProber
 import kotlinx.coroutines.delay
 
 class IPManager( var context: Context) {
+    suspend fun setIPManually(ip:String, vm:MainViewModel){
+        val oldIP = vm.localIP.value
+        vm.localIP.value = ip
+        vm.db.setIP(IPLocal(IPvalue = ip))
+        vm.pageHtml.mainPage = vm.pageHtml.mainPage.replace(oldIP, ip)
+        vm.handler.post {
+            vm.toastMessage.infoMessage(vm.localIP.value)
+        }
+    }
     suspend fun getIP(permissionIntent: PendingIntent,  vm:MainViewModel) {
         val manager = context.getSystemService(ComponentActivity.USB_SERVICE) as UsbManager
         val availableDrivers = UsbSerialProber.getDefaultProber().findAllDrivers(manager)

@@ -6,7 +6,7 @@
     <string name="horizontal">горизонтальных</string>
     <string name="message4sec">Устройство еще не подключено, попробуйте через 4 секунды</string>
     <string name="refresh">Обновить</string>
-    <string name="synchronize">Синхонизировать</string>
+    <string name="synchronize">Синхонизировать IP</string>
     <string name="colorLabel">Цвет</string>
     <string name="removeLabel">Удалить метку?</string>
     <string name="DeleteLabel">Удалить</string>
@@ -25,4 +25,6 @@
     <string name="DeviceNotFound">Устройство не найдено</string>
     <string name="noLogin">нет логина</string>
     <string name="noPassword">нет пароля</string>
+    <string name="manuallysynchronizeIP">Синхронизировать IP вручную</string>
+    <string name="close">Закрыть</string>
 </resources>
