@@ -15,6 +15,8 @@ Step 2. Print and prepare 3D parts.
 
 
 ![image](https://github.com/b05a/LabelsWeb/assets/88624075/bbad548a-1853-4f41-9bb9-be9595f1a3a1)
+![image](https://github.com/b05a/LabelsWeb/assets/88624075/61894c54-9f58-4e26-8994-8ed59588c3f9)
+
 
 
 Step 3: Upload the sketch to the ESP32.
